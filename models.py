@@ -7,6 +7,14 @@ class User(db.Model):
     password = db.Column(db.String, nullable=False)
     devices = db.relationship('Device', backref='user', lazy=True)
 
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "email": self.email,
+            "password": self.password,
+            "devices": self.devices
+        }
+
 
 class Device(db.Model):
     __tablename__ = 'devices'
