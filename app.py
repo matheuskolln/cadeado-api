@@ -44,3 +44,19 @@ def create_user_route():
     return {
         "status": 'already have a user using this email'
     }, 400
+
+@app.route("/user", methods=['GET'])
+def login_user_route():
+    email = request.json.get('email')
+    password = request.json.get('password')
+
+    user = db.session.execute(select(User).where(User.email == email, User.password == password)).first()
+
+    if user:
+        return {
+            'status': 'login successful',
+            'user': user[0].to_dict()
+        }, 200
+    return {
+        'status': 'bad credentials'
+    }, 401
