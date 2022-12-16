@@ -17,7 +17,7 @@ migrate = Migrate(app, db)
 
 
 # We need to import models after of defining db
-from models import Device, User
+from models import Log, User
 
 def token_required(f):
    @wraps(f)
@@ -85,15 +85,22 @@ def login_user_route():
         'message': 'bad credentials'
     }, 401
 
-@app.route("/user/device", methods=["POST"])
+@app.route("/user/log", methods=["POST"])
 @token_required
-def add_device(user):
-    device_info = request.json.get('device_info')
-    device = Device(information=device_info, owner=user.id)
-    db.session.add(device)
+def add_log(user):
+    log_info = request.json
+    log = Log(**log_info, user_id=user.id, datetime=datetime.utcnow())
+    db.session.add(log)
     db.session.commit()
 
     return {
-        'message': 'device added',
-        'device': device.to_dict()
+        'message': 'log added',
+        'log': log.to_dict()
     }, 201
+
+@app.route("/user/logs", methods=["GET"])
+@token_required
+def get_logs(user):
+    return {
+        "logs": [log.to_dict() for log in user.logs]
+    }, 200

@@ -1,6 +1,5 @@
 from __future__ import with_statement
 
-from app import db
 import logging
 from logging.config import fileConfig
 
@@ -20,7 +19,7 @@ logger = logging.getLogger('alembic.env')
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
-target_metadata = db.metadata
+# target_metadata = mymodel.Base.metadata
 config.set_main_option(
     'sqlalchemy.url',
     str(current_app.extensions['migrate'].db.get_engine().url).replace(
@@ -71,9 +70,6 @@ def run_migrations_online():
     # this callback is used to prevent an auto-migration from being generated
     # when there are no changes to the schema
     # reference: http://alembic.zzzcomputing.com/en/latest/cookbook.html
-    from app import app
-    from models import User
-
     def process_revision_directives(context, revision, directives):
         if getattr(config.cmd_opts, 'autogenerate', False):
             script = directives[0]
