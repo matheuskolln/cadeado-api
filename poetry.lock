@@ -168,6 +168,20 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "pyjwt"
+version = "2.6.0"
+description = "JSON Web Token implementation in Python"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+crypto = ["cryptography (>=3.4.0)"]
+dev = ["sphinx (>=4.5.0,<5.0.0)", "sphinx-rtd-theme", "zope.interface", "cryptography (>=3.4.0)", "pytest (>=6.0.0,<7.0.0)", "coverage[toml] (==5.0.4)", "pre-commit"]
+docs = ["sphinx (>=4.5.0,<5.0.0)", "sphinx-rtd-theme", "zope.interface"]
+tests = ["pytest (>=6.0.0,<7.0.0)", "coverage[toml] (==5.0.4)"]
+
+[[package]]
 name = "sqlalchemy"
 version = "1.4.44"
 description = "Database Abstraction Library"
@@ -228,7 +242,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "flake8 (<5)", "pytest-co
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "b88096d61a027380aed55b426bbf5e96b9ab56674e03adc3add685806f40fce1"
+content-hash = "ef3ab422a6c25043ec3d351ba4e78c206b21703cb26e96cf2083671128b98888"
 
 [metadata.files]
 alembic = []
@@ -244,6 +258,7 @@ itsdangerous = []
 jinja2 = []
 mako = []
 markupsafe = []
+pyjwt = []
 sqlalchemy = []
 werkzeug = []
 zipp = []

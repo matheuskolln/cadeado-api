@@ -12,7 +12,7 @@ class User(db.Model):
             "id": self.id,
             "email": self.email,
             "password": self.password,
-            "devices": self.devices
+            "devices": [device.to_dict() for device in self.devices]
         }
 
 
@@ -21,3 +21,10 @@ class Device(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     information = db.Column(db.String, unique=True, nullable=False)
     owner = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "information": self.information,
+            "owner_id": self.owner
+        }
