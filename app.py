@@ -14,6 +14,21 @@ app.config['SECRET_KEY'] = 'th3b3stc4d34d0s3cretke1'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+from base64 import b64decode
+
+
+def getDataFromAuth(auth: str) -> dict:
+    try:
+        auth_without_prefix = removePrefix(auth)
+        decoded_auth = b64decode(auth_without_prefix).decode("utf-8")
+        auth_data = decoded_auth.split(":")
+        return {"email": auth_data[0], "password": auth_data[1]}
+    except:
+        return {"email": '', "password": ''}
+
+def removePrefix(auth: str) -> str:
+    return auth.split(" ")[1]
+
 
 
 # We need to import models after of defining db
@@ -70,8 +85,11 @@ def create_user_route():
 
 @app.route("/user", methods=['GET'])
 def login_user_route():
-    email = request.json.get('email')
-    password = request.json.get('password')
+    auth = request.headers.get("authentication")
+    data = getDataFromAuth(auth)
+
+    email = data['email']
+    password = data['password']
 
     user: User = db.session.execute(select(User).where(User.email == email, User.password == password)).first()[0]
     if user:
