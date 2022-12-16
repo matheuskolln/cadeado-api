@@ -19,15 +19,12 @@ from base64 import b64decode
 
 def getDataFromAuth(auth: str) -> dict:
     try:
-        auth_without_prefix = removePrefix(auth)
-        decoded_auth = b64decode(auth_without_prefix).decode("utf-8")
+        decoded_auth = b64decode(auth).decode("utf-8")
         auth_data = decoded_auth.split(":")
         return {"email": auth_data[0], "password": auth_data[1]}
     except:
         return {"email": '', "password": ''}
 
-def removePrefix(auth: str) -> str:
-    return auth.split(" ")[1]
 
 
 
